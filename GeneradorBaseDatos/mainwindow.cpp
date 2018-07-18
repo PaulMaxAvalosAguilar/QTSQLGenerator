@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->textBrowser->setText(data.generarTextoHeader(""));
+    ui->textBrowser_2->setText(data.generarTextoSrc());
 
 }
 
