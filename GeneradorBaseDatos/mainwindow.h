@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "generardatabasemanager.h"
+#include "generator.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     GenerarDatabaseManager data;
+    Generator generatorUi;
 };
 
 #endif // MAINWINDOW_H

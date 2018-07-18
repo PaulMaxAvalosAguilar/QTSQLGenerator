@@ -9,6 +9,8 @@ public:
     GenerarDatabaseManager();
     QString generarTextoHeader(QString nombrebaseDatos);
     QString generarTextoSrc();
+
+
 };
 
 #endif // GENERARDATABASEMANAGER_H

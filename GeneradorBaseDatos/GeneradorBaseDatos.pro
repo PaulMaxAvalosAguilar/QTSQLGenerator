@@ -26,11 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    generardatabasemanager.cpp
+    generardatabasemanager.cpp \
+    generator.cpp
 
 HEADERS += \
         mainwindow.h \
-    generardatabasemanager.h
+    generardatabasemanager.h \
+    generator.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    generator.ui
