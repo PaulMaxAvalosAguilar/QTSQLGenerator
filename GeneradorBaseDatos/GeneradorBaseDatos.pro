@@ -27,13 +27,13 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     generardatabasemanager.cpp \
-    generator.cpp
+    dbmanager.cpp
 
 HEADERS += \
         mainwindow.h \
     generardatabasemanager.h \
-    generator.h
+    dbmanager.h
 
 FORMS += \
         mainwindow.ui \
-    generator.ui
+    dbmanager.ui

@@ -11,14 +11,10 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -30,12 +26,11 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QSpacerItem *horizontalSpacer;
-    QLineEdit *lineEdit;
-    QTextBrowser *textBrowser;
-    QTextBrowser *textBrowser_2;
+    QTabWidget *tabWidget;
+    QWidget *dbManagertab;
+    QVBoxLayout *verticalLayout_2;
+    QWidget *tab_2;
+    QVBoxLayout *verticalLayout_3;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -45,55 +40,36 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(800, 300);
+        MainWindow->resize(800, 600);
+        MainWindow->setMinimumSize(QSize(0, 0));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        centralWidget->setMinimumSize(QSize(0, 0));
         centralWidget->setLayoutDirection(Qt::LeftToRight);
         verticalLayout = new QVBoxLayout(centralWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(14);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetNoConstraint);
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
-        label->setSizePolicy(sizePolicy);
-        label->setMaximumSize(QSize(16777215, 16777215));
+        verticalLayout->setContentsMargins(-1, -1, -1, 2);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QStringLiteral("tabWidget"));
+        tabWidget->setMinimumSize(QSize(0, 0));
+        dbManagertab = new QWidget();
+        dbManagertab->setObjectName(QStringLiteral("dbManagertab"));
+        verticalLayout_2 = new QVBoxLayout(dbManagertab);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        tabWidget->addTab(dbManagertab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QStringLiteral("tab_2"));
+        verticalLayout_3 = new QVBoxLayout(tab_2);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        tabWidget->addTab(tab_2, QString());
 
-        horizontalLayout->addWidget(label);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-        lineEdit = new QLineEdit(centralWidget);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        sizePolicy.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
-        lineEdit->setSizePolicy(sizePolicy);
-        lineEdit->setMinimumSize(QSize(0, 0));
-        lineEdit->setMaximumSize(QSize(16777215, 16777215));
-
-        horizontalLayout->addWidget(lineEdit);
-
-
-        verticalLayout->addLayout(horizontalLayout);
-
-        textBrowser = new QTextBrowser(centralWidget);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setEnabled(true);
-
-        verticalLayout->addWidget(textBrowser);
-
-        textBrowser_2 = new QTextBrowser(centralWidget);
-        textBrowser_2->setObjectName(QStringLiteral("textBrowser_2"));
-
-        verticalLayout->addWidget(textBrowser_2);
+        verticalLayout->addWidget(tabWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -112,14 +88,17 @@ public:
 
         retranslateUi(MainWindow);
 
+        tabWidget->setCurrentIndex(0);
+
+
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        label->setText(QApplication::translate("MainWindow", "Database Name:", nullptr));
-        lineEdit->setText(QApplication::translate("MainWindow", "Enter your text", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(dbManagertab), QApplication::translate("MainWindow", "DatabaseManager", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", nullptr));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "generardatabasemanager.h"
-#include "generator.h"
+#include "dbmanager.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -19,14 +19,9 @@ public:
 
 private slots:
 
-
-    void on_lineEdit_textEdited(const QString &arg1);
-
-
 private:
     Ui::MainWindow *ui;
-    GenerarDatabaseManager data;
-    Generator generatorUi;
+    DbManager *dbmanagerui;
 };
 
 #endif // MAINWINDOW_H
