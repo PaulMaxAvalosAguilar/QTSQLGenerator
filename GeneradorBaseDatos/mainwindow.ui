@@ -42,7 +42,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="dbManagertab">
        <attribute name="title">
@@ -50,9 +50,9 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2"/>
       </widget>
-      <widget class="QWidget" name="tab_2">
+      <widget class="QWidget" name="classdaotab">
        <attribute name="title">
-        <string>Tab 2</string>
+        <string>ClassDao</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3"/>
       </widget>

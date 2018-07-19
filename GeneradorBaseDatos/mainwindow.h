@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "dbmanager.h"
+#include "daomanager.h"
 
 
 namespace Ui {
@@ -22,6 +23,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     DbManager *dbmanagerui;
+    Daomanager *classdaomanager;
 };
 
 #endif // MAINWINDOW_H

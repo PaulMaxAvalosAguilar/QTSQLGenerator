@@ -3,7 +3,8 @@
 
 DbManager::DbManager(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DbManager)
+    ui(new Ui::DbManager),
+    dbtextManager()
 {
     ui->setupUi(this);
     ui->headerBrowser->setText(dbtextManager.generarTextoHeader(""));

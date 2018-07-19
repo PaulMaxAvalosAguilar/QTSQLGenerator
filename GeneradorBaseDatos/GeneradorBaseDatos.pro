@@ -27,13 +27,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     generardatabasemanager.cpp \
-    dbmanager.cpp
+    dbmanager.cpp \
+    generarclassdao.cpp \
+    daomanager.cpp
 
 HEADERS += \
         mainwindow.h \
     generardatabasemanager.h \
-    dbmanager.h
+    dbmanager.h \
+    generarclassdao.h \
+    daomanager.h
 
 FORMS += \
         mainwindow.ui \
-    dbmanager.ui
+    dbmanager.ui \
+    daomanager.ui

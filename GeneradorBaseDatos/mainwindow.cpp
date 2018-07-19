@@ -7,10 +7,12 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    dbmanagerui(new DbManager)
+    dbmanagerui(new DbManager),
+    classdaomanager(new Daomanager)
 {
     ui->setupUi(this);
     ui->dbManagertab->layout()->addWidget(dbmanagerui);
+    ui->classdaotab->layout()->addWidget(classdaomanager);
 }
 
 MainWindow::~MainWindow()
