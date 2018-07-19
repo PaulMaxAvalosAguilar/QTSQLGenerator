@@ -22,6 +22,7 @@ private slots:
 
     void on_lineEdit_textEdited(const QString &arg1);
 
+
 private:
     Ui::MainWindow *ui;
     GenerarDatabaseManager data;

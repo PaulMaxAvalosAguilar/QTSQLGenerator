@@ -23,6 +23,7 @@ QString GenerarDatabaseManager::generarTextoHeader(QString nombrebaseDatos)
         "class QSqlQuery;\n"
         "class QSqlDatabase;\n\n"
 
+
         "const QString DATABASE_FILENAME = \"%1\";\n\n"
 
         "class DatabaseManager\n"
@@ -41,9 +42,11 @@ QString GenerarDatabaseManager::generarTextoHeader(QString nombrebaseDatos)
         "};\n\n"
         "#endif // DATABASEMANAGER_H\n").arg(nombrebaseDatos);
 
-    return text;
 
+    return text;
 }
+
+
 
 QString GenerarDatabaseManager::generarTextoSrc()
 {

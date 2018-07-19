@@ -16,6 +16,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
@@ -31,6 +32,7 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
+    QSpacerItem *horizontalSpacer;
     QLineEdit *lineEdit;
     QTextBrowser *textBrowser;
     QTextBrowser *textBrowser_2;
@@ -57,11 +59,25 @@ public:
         horizontalLayout->setSizeConstraint(QLayout::SetNoConstraint);
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
+        label->setMaximumSize(QSize(16777215, 16777215));
 
         horizontalLayout->addWidget(label);
 
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
         lineEdit = new QLineEdit(centralWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        sizePolicy.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy);
+        lineEdit->setMinimumSize(QSize(0, 0));
+        lineEdit->setMaximumSize(QSize(16777215, 16777215));
 
         horizontalLayout->addWidget(lineEdit);
 
@@ -70,6 +86,7 @@ public:
 
         textBrowser = new QTextBrowser(centralWidget);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
+        textBrowser->setEnabled(true);
 
         verticalLayout->addWidget(textBrowser);
 
@@ -101,7 +118,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        label->setText(QApplication::translate("MainWindow", "Entered text", nullptr));
+        label->setText(QApplication::translate("MainWindow", "Database Name:", nullptr));
         lineEdit->setText(QApplication::translate("MainWindow", "Enter your text", nullptr));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi

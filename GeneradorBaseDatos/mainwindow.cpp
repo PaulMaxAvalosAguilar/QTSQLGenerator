@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "generardatabasemanager.h"
 #include <QDebug>
-#include <QPushButton>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,6 +12,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->textBrowser->setText(data.generarTextoHeader(""));
     ui->textBrowser_2->setText(data.generarTextoSrc());
+
+    /*
+    ui->textBrowser->setParent(0);
+    ui->textBrowser_2->setParent(0);
+    ui->label->setParent(0);
+    ui->lineEdit->setParent(0);
+
+    ui->centralWidget->layout()->addWidget(&generatorUi);
+    */
 
 }
 
@@ -26,5 +35,7 @@ void MainWindow::on_lineEdit_textEdited(const QString &arg1)
 {
     ui->textBrowser->setText(data.generarTextoHeader(arg1));
 
-
+    QTextCursor cursor = ui->textBrowser->textCursor();
+    cursor.setPosition(12);
+    ui->textBrowser->setTextCursor(cursor);
 }
