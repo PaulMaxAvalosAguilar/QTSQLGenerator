@@ -36,9 +36,8 @@ QString GenerarDatabaseManager::generarTextoHeader(QString nombrebaseDatos)
             "\tDatabaseManager(const QString& path = DATABASE_FILENAME);\n"
         "private:\n"
             "\tstd::unique_ptr<QSqlDatabase> mDatabase;\n\n"
-        "public:\n"
-            "\tconst AlbumDao albumDao;\n"
-            "\tconst PictureDao pictureDao;\n"
+        "public://Add your DAO's as public members\n\n\n\n"
+
         "};\n\n"
         "#endif // DATABASEMANAGER_H\n").arg(nombrebaseDatos);
 
@@ -52,7 +51,7 @@ QString GenerarDatabaseManager::generarTextoSrc()
 {
     QString text;
     text = QString(
-                "#include \"DatabaseManager.h\"\n"
+                "#include \"databasemanager.h\"\n"
                 "#include <QSqlDatabase>\n"
                 "#include <QDebug>\n"
                 "#include <QSqlError>\n"
@@ -81,7 +80,7 @@ QString GenerarDatabaseManager::generarTextoSrc()
 
 
                 "DatabaseManager::DatabaseManager(const QString& path) :\n"
-                    "\tmDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(\"QSQLITE\"))),\n"
+                    "\tmDatabase(new QSqlDatabase(QSqlDatabase::addDatabase(\"QSQLITE\")))\n"
                 "{\n"
                     "\tmDatabase->setDatabaseName(path);\n"
 

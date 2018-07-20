@@ -8,6 +8,7 @@ class Generarclassdao
 public:
     Generarclassdao();
     QString generarTextoHeader(QString className);
+    QString generarTextoSrc(QString className);
 
 private:
     QString firstLettertoUpperCase(QString &string);

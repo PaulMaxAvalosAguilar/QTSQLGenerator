@@ -8,8 +8,6 @@ class GenerarDatabaseManager
 public:
     GenerarDatabaseManager();
     QString generarTextoHeader(QString nombrebaseDatos);
-
-
     QString generarTextoSrc();
 
 

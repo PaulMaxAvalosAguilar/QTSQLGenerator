@@ -1,5 +1,6 @@
 #include "dbmanager.h"
 #include "ui_dbmanager.h"
+#include <QScrollBar>
 
 DbManager::DbManager(QWidget *parent) :
     QWidget(parent),
@@ -18,7 +19,10 @@ DbManager::~DbManager()
 
 void DbManager::on_dbnamelineEdit_textEdited(const QString &arg1)
 {
+    QScrollBar *headerscroll = ui->headerBrowser->verticalScrollBar();
+    int lastHscrollposition = headerscroll->value();
+
     ui->headerBrowser->setText(dbtextManager.generarTextoHeader(arg1));
 
-
+    headerscroll->setValue(lastHscrollposition);
 }
