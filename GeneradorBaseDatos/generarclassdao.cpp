@@ -44,7 +44,9 @@ QString Generarclassdao::generarTextoHeader(QString className)
     return text;
 }
 
-QString Generarclassdao::generarTextoSrc(QString className)
+QString Generarclassdao::generarTextoSrc(QString className,
+                                         std::deque<QString> &nombres,
+                                         std::deque<QString> &tipos)
 {
     QString text;
         text = QString(
@@ -68,7 +70,7 @@ QString Generarclassdao::generarTextoSrc(QString className)
             "{\n"
                 "\tif (!mDatabase.tables().contains(\"%1\")) {\n"
                     "\t\tQSqlQuery query(mDatabase);\n"
-                    "\t\tquery.exec(\"CREATE TABLE %1 (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)\");\n"
+                    "\t\tquery.exec(\"CREATE TABLE %1 (id INTEGER PRIMARY KEY AUTOINCREMENT, %3\");\n"
                     "\t\tDatabaseManager::debugQuery(query);\n"
                 "\t}\n"
             "}\n\n"
@@ -76,8 +78,7 @@ QString Generarclassdao::generarTextoSrc(QString className)
             "void %1Dao::addRecord(%1& record) const\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
-                "\tquery.prepare(\"INSERT INTO %1 (name) VALUES (:name)\");\n"
-                "\tquery.bindValue(\":name\", album.getName());\n"
+                "\tquery.prepare(\"INSERT INTO %1 %4"
                 "\tquery.exec();\n"
                 "\trecord.setId(query.lastInsertId().toInt());\n"
                 "\tDatabaseManager::debugQuery(query);\n"
@@ -120,8 +121,69 @@ QString Generarclassdao::generarTextoSrc(QString className)
                 "\t}\n"
                 "\treturn list;\n"
             "}\n"
-            ).arg(className).arg(className.toLower());
+            ).arg(className).arg(className.toLower())
+                .arg(generadorTablas(nombres,tipos))
+                .arg(generadorInsert(nombres));
         return text;
+}
+
+QString Generarclassdao::generadorTablas(std::deque<QString> &nombres, std::deque<QString> &tipos)
+{
+    QString texto;
+    for(uint i = 0; i < nombres.size(); i++){
+
+        texto.append(nombres.at(i));
+        texto.append(" ");
+        texto.append(tipos.at(i));
+        if(i != (nombres.size()-1)){
+            texto.append(",");
+        }
+    }
+
+    return texto;
+}
+
+QString Generarclassdao::generadorInsert(std::deque<QString> &nombres)
+{
+    QString texto;
+    texto.append("(");
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append(nombres.at(i));
+        if(i != (nombres.size())-1){
+            texto.append(",");
+        }
+    }
+    texto.append(")");
+
+    texto.append(" ");
+    texto.append(" VALUES ");
+    texto.append(" ");
+    texto.append("(");
+
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append(":");
+        texto.append(nombres.at(i));
+        if(i != (nombres.size())-1){
+            texto.append(",");
+        }
+    }
+
+    texto.append(");\n");
+
+
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append("\tquery.bindValue(\":");
+        texto.append(nombres.at(i));
+        texto.append("\"");
+        texto.append(",");
+        texto.append(" ");
+        texto.append("record");
+        texto.append(".get");
+        texto.append(firstLettertoUpperCase(nombres.at(i)));
+        texto.append("());\n");
+    }
+
+    return texto;
 }
 
 QString Generarclassdao::firstLettertoUpperCase(QString &string)

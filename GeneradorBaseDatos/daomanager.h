@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <generarclassdao.h>
+#include <deque>
 
 namespace Ui {
 class Daomanager;
@@ -22,6 +23,8 @@ private slots:
 private:
     Ui::Daomanager *ui;
     Generarclassdao classdaomanager;
+    std::deque<QString> nombres;
+    std::deque<QString> tipos;
 };
 
 #endif // DAOMANAGER_H

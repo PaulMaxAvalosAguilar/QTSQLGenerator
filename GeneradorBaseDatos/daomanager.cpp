@@ -10,8 +10,21 @@ Daomanager::Daomanager(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
+    nombres.push_back("nombre");
+    tipos.push_back("text");
+    nombres.push_back("edad");
+    tipos.push_back("integer");
+    nombres.push_back("experiencia");
+    tipos.push_back("integer");
+
+
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(""));
-    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(""));
+    ui->cppBrowser->setText(classdaomanager.generarTextoSrc("",nombres,tipos));
+
+
+
 }
 
 Daomanager::~Daomanager()
@@ -30,7 +43,7 @@ void Daomanager::on_classnameline_textEdited(const QString &arg1)
     int lastSscrollposition = cppscroll->value();
 
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(arg1));
-    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(arg1));
+    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(arg1,nombres,tipos));
 
     headerscroll->setValue(lastHscrollposition);
     cppscroll->setValue(lastSscrollposition);
