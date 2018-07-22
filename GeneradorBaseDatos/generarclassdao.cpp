@@ -113,7 +113,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                     "\t\tlist->push_back(move(%2));\n"
                 "\t}\n"
                 "\treturn list;\n"
-            "}\n"
+            "}\n\n"
             ""
             "std::unique_ptr<%1> %1Dao::getRecord(int recordId) const\n"
             "{\n"
@@ -126,7 +126,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\t%2->setId(query.value(\"id\").toInt());\n"
                 "%7"
                 "\treturn %2;\n"
-            "}\n\n"
+            "}\n"
 
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
