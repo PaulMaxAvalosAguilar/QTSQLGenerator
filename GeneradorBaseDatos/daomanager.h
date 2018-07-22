@@ -20,6 +20,8 @@ public:
 private slots:
     void on_classnameline_textEdited(const QString &arg1);
 
+    void on_addFieldButton_clicked();
+
 private:
     Ui::Daomanager *ui;
     Generarclassdao classdaomanager;
