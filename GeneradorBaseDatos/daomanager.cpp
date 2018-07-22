@@ -37,6 +37,32 @@ Daomanager::~Daomanager()
     delete ui;
 }
 
+void Daomanager::editCurFieldTBrowser(int i)
+{
+    int lastposition = nombres.size()-1;
+    static int vecesOprimidas;
+    int position;
+
+    if(i == 1){
+        position = lastposition;
+        ui->currentfieldTB->setText(nombres.at(position)
+                                    + " " +
+                                    tipos.at(position));
+        vecesOprimidas = 1;
+    }else if(i == 2){
+
+        position = lastposition -vecesOprimidas;
+        if(position >=0){
+            ui->currentfieldTB->setText(nombres.at(position)
+                                        + " " +
+                                        tipos.at(position));
+            vecesOprimidas++;
+        }
+    }else if(i == 3){
+
+    }
+}
+
 
 
 void Daomanager::on_classnameline_textEdited(const QString &arg1)
@@ -83,5 +109,18 @@ void Daomanager::on_addFieldButton_clicked()
     cppscroll->setValue(lastSscrollposition);
     //RESET SCROLLBAR POSITIONS
 
-    ui->currentfieldTB->setText(text + " " + typetext);
+
+    editCurFieldTBrowser(1);
+
+}
+
+
+void Daomanager::on_upButton_clicked()
+{
+    editCurFieldTBrowser(2);
+}
+
+void Daomanager::on_downButton_clicked()
+{
+
 }

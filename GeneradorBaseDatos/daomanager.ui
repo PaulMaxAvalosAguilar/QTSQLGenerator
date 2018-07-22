@@ -56,7 +56,7 @@
       <widget class="QComboBox" name="comboBox"/>
      </item>
      <item>
-      <widget class="QPushButton" name="downButton">
+      <widget class="QPushButton" name="upButton">
        <property name="maximumSize">
         <size>
          <width>40</width>
@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="upButton">
+      <widget class="QPushButton" name="downButton">
        <property name="maximumSize">
         <size>
          <width>40</width>
@@ -546,9 +546,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="cppBrowser"/>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <property name="bottomMargin">
       <number>0</number>
@@ -983,6 +980,9 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QTextBrowser" name="cppBrowser"/>
    </item>
   </layout>
  </widget>
