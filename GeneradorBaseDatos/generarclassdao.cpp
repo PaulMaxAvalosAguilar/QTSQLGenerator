@@ -113,17 +113,20 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.exec();\n"
                 "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
                 "\twhile(query.next()) {\n"
-                    "\t\tunique_ptr<Album> album(new %1());\n"
-                    "\t\talbum->setId(query.value(\"id\").toInt());\n"
-                    "\t\talbum->setName(query.value(\"name\").toString());\n"
-                    "\t\tlist->push_back(move(album));\n"
+                    "\t\tunique_ptr<%1> %2(new %1());\n"
+                    "\t\t%2->setId(query.value(\"id\").toInt());\n"
+                    "%6"
+                    "\t\tlist->push_back(move(%2));\n"
                 "\t}\n"
                 "\treturn list;\n"
             "}\n"
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
                 .arg(generadorInsert(nombres))
-                .arg(generadorUpdate(nombres));
+                .arg(generadorUpdate(nombres))
+                .arg(generadorReadAll(nombres,
+                                      tipos,
+                                      className));
         return text;
 }
 
@@ -224,6 +227,41 @@ QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
     }
 
     return texto;
+}
+
+QString Generarclassdao::generadorReadAll(std::deque<QString> &nombres,
+                                          std::deque<QString> &tipos,
+                                          QString className)
+{
+    QString texto;
+
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append("\t\t");
+        texto.append(className.toLower());
+        texto.append("->");
+        texto.append("set");
+        texto.append(firstLettertoUpperCase(nombres.at(i)));
+        texto.append("(query.value(\"");
+        texto.append(nombres.at(i));
+        texto.append("\")");
+
+        if(tipos.at(i) == TEXT ){
+            texto.append(".toString()");
+        }else if (tipos.at(i) == NUMERIC) {
+            texto.append(".toBool()");
+        }else if (tipos.at(i) == INTEGER){
+            texto.append(".toInt()");
+        }else if (tipos.at(i) == REAL) {
+            texto.append(".toDouble");
+        } else if (tipos.at(i) == BLOB){
+            texto.append(".toByteArray");
+        }
+
+        texto.append(";\n");
+    }
+
+    return texto;
+
 }
 
 QString Generarclassdao::firstLettertoUpperCase(QString &string)
