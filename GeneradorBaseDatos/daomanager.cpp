@@ -40,7 +40,7 @@ Daomanager::~Daomanager()
 void Daomanager::editCurFieldTBrowser(int i)
 {
     int lastposition = nombres.size()-1;
-    static int vecesOprimidas;
+    static int vecesOprimidasbA;
     int position;
 
     if(i == 1){
@@ -48,15 +48,15 @@ void Daomanager::editCurFieldTBrowser(int i)
         ui->currentfieldTB->setText(nombres.at(position)
                                     + " " +
                                     tipos.at(position));
-        vecesOprimidas = 1;
+        vecesOprimidasbA = 1;
     }else if(i == 2){
 
-        position = lastposition -vecesOprimidas;
+        position = lastposition -vecesOprimidasbA;
         if(position >=0){
             ui->currentfieldTB->setText(nombres.at(position)
                                         + " " +
                                         tipos.at(position));
-            vecesOprimidas++;
+            vecesOprimidasbA++;
         }
     }else if(i == 3){
 
