@@ -11,26 +11,26 @@ QString Generarclassdao::generarTextoHeader(QString className)
     QString text;
     text = QString(
 
-            "#ifndef %1DAO_H\n"
-            "#define %1DAO_H\n"
+            "#ifndef %2DAO_H\n"
+            "#define %2DAO_H\n"
 
             "#include <memory>\n"
             "#include <vector>\n\n"
 
             "class QSqlDatabase;\n"
-            "class %2;\n\n"
+            "class %1;\n\n"
 
-            "class %2Dao\n"
+            "class %1Dao\n"
             "{\n"
             "public:\n"
-                "\texplicit %2Dao(QSqlDatabase& database);\n"
+                "\texplicit %1Dao(QSqlDatabase& database);\n"
                 "\tvoid init() const;\n\n"
 
-                "\tvoid addRecord(%2& record) const;\n"
-                "\tvoid updateRecord(%2& record) const;\n"
+                "\tvoid addRecord(%1& record) const;\n"
+                "\tvoid updateRecord(%1& record) const;\n"
                 "\tvoid removeRecord(int recordId) const;\n"
-                "\tstd::unique_ptr<%2> getRecord(int recordId) const;\n"
-                "\tstd::unique_ptr<std::vector<std::unique_ptr<%2>>> getAllRecords() const;\n\n"
+                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
+                "\tstd::unique_ptr<%1> getRecord(int recordId) const;\n"
 
             "private:\n"
                 "\tQSqlDatabase& mDatabase;\n"
@@ -39,8 +39,7 @@ QString Generarclassdao::generarTextoHeader(QString className)
             "#endif // PICTUREDAO_H\n"
 
 
-                ).arg(className.toUpper()).arg(className)
-            ;
+                ).arg(className).arg(className.toUpper());            ;
     return text;
 }
 
@@ -102,11 +101,6 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tDatabaseManager::debugQuery(query);\n"
             "}\n\n"
 
-            "std::unique_ptr<%1> %1Dao::getRecord(int recordId) const\n"
-            "{\n"
-
-            "}\n\n"
-
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
             "{\n"
                 "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
@@ -120,6 +114,16 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\t}\n"
                 "\treturn list;\n"
             "}\n"
+            ""
+            "std::unique_ptr<%1> %1Dao::getRecord(int recordId) const\n"
+            "{\n"
+                "\tQSqlQuery query(mDatabase);\n"
+                "\tquery.prepare(\"SELECT * FROM %1 WHERE id = (:id)\");\n"
+                "\tquery.bindValue(\":id\", recordId);\n"
+                "\tquery.exec();\n"
+                 "\tDatabaseManager::debugQuery(query);\n"
+            "}\n\n"
+
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
                 .arg(generadorInsert(nombres))
