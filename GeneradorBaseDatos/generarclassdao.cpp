@@ -121,14 +121,18 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.prepare(\"SELECT * FROM %1 WHERE id = (:id)\");\n"
                 "\tquery.bindValue(\":id\", recordId);\n"
                 "\tquery.exec();\n"
-                 "\tDatabaseManager::debugQuery(query);\n"
+                "\tDatabaseManager::debugQuery(query);\n"
+                "\tstd::unique_ptr<%1> %2(new %1());\n"
+                "\t\t%2->setId(query.value(\"id\").toInt());\n"
+                "\t%6"
+                "\treturn %2;"
             "}\n\n"
 
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
                 .arg(generadorInsert(nombres))
                 .arg(generadorUpdate(nombres))
-                .arg(generadorReadAll(nombres,
+                .arg(generadorAsignacion(nombres,
                                       tipos,
                                       className));
         return text;
@@ -233,7 +237,7 @@ QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
     return texto;
 }
 
-QString Generarclassdao::generadorReadAll(std::deque<QString> &nombres,
+QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
                                           std::deque<QString> &tipos,
                                           QString className)
 {

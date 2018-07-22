@@ -25,7 +25,7 @@ public:
                             std::deque<QString> &tipos);
     QString generadorInsert(std::deque<QString> &nombres);
     QString generadorUpdate(std::deque<QString> &nombres);
-    QString generadorReadAll(std::deque<QString> &nombres, std::deque<QString> &tipos,
+    QString generadorAsignacion(std::deque<QString> &nombres, std::deque<QString> &tipos,
                              QString className);
 
 
