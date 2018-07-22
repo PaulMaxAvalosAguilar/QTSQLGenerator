@@ -123,9 +123,9 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
                 "\tstd::unique_ptr<%1> %2(new %1());\n"
-                "\t\t%2->setId(query.value(\"id\").toInt());\n"
-                "\t%6"
-                "\treturn %2;"
+                "\t%2->setId(query.value(\"id\").toInt());\n"
+                "%7"
+                "\treturn %2;\n"
             "}\n\n"
 
             ).arg(className).arg(className.toLower())
@@ -133,8 +133,14 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 .arg(generadorInsert(nombres))
                 .arg(generadorUpdate(nombres))
                 .arg(generadorAsignacion(nombres,
-                                      tipos,
-                                      className));
+                                         tipos,
+                                         className,
+                                         2))
+                .arg(generadorAsignacion(nombres,
+                                         tipos,
+                                         className,
+                                         1))
+                ;
         return text;
 }
 
@@ -239,12 +245,15 @@ QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
 
 QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
                                           std::deque<QString> &tipos,
-                                          QString className)
+                                          QString className,
+                                             int numeroTabs)
 {
     QString texto;
 
     for(uint i = 0; i< nombres.size(); i++){
-        texto.append("\t\t");
+        for(int i = 1; i <= numeroTabs; i++){
+        texto.append("\t");
+        }
         texto.append(className.toLower());
         texto.append("->");
         texto.append("set");
