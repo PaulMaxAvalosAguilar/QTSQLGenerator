@@ -185,7 +185,7 @@ QString Generarclassdao::generadorInsert(std::deque<QString> &nombres)
         }
     }
 
-    texto.append(");\n");
+    texto.append("\"));\n");
 
 
     for(uint i = 0; i< nombres.size(); i++){
@@ -226,7 +226,7 @@ QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
         }
     }
 
-    texto.append(") WHERE  id = (:id);\n");
+    texto.append(") WHERE  id = (:id)\");\n");
 
     for(uint i = 0; i< nombres.size(); i++){
         texto.append("\tquery.bindValue(\":");
@@ -262,16 +262,16 @@ QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
         texto.append(nombres.at(i));
         texto.append("\")");
 
-        if(tipos.at(i) == TEXT ){
+        if(tipos.at(i) == "TEXT" ){
             texto.append(".toString()");
-        }else if (tipos.at(i) == NUMERIC) {
+        }else if (tipos.at(i) == "NUMERIC") {
             texto.append(".toBool()");
-        }else if (tipos.at(i) == INTEGER){
+        }else if (tipos.at(i) == "INTEGER"){
             texto.append(".toInt()");
-        }else if (tipos.at(i) == REAL) {
-            texto.append(".toDouble");
-        } else if (tipos.at(i) == BLOB){
-            texto.append(".toByteArray");
+        }else if (tipos.at(i) == "REAL") {
+            texto.append(".toDouble()");
+        } else if (tipos.at(i) == "BLOB"){
+            texto.append(".toByteArray()");
         }
 
         texto.append(";\n");

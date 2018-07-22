@@ -6,7 +6,8 @@
 Daomanager::Daomanager(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Daomanager),
-    classdaomanager()
+    classdaomanager(),
+    className()
 {
     ui->setupUi(this);
 
@@ -20,18 +21,14 @@ Daomanager::Daomanager(QWidget *parent) :
     tipos.push_back("integer");
 */
 
-    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(""));
-    ui->cppBrowser->setText(classdaomanager.generarTextoSrc("",nombres,tipos));
-
-
-
     ui->comboBox->addItem("TEXT");
     ui->comboBox->addItem("NUMERIC");
     ui->comboBox->addItem("INTEGER");
     ui->comboBox->addItem("REAL");
     ui->comboBox->addItem("BLOB");
 
-
+    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(""));
+    ui->cppBrowser->setText(classdaomanager.generarTextoSrc("",nombres,tipos));
 
 }
 
@@ -44,23 +41,45 @@ Daomanager::~Daomanager()
 
 void Daomanager::on_classnameline_textEdited(const QString &arg1)
 {
+
+    //GET CURRENT SCROLLBAR POSITIONS
     QScrollBar *headerscroll = ui->headerBrowser->verticalScrollBar();
     int lastHscrollposition = headerscroll->value();
 
     QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
     int lastSscrollposition = cppscroll->value();
+    //GET CURRENT SCROLLBAR POSITIONS
 
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(arg1));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(arg1,nombres,tipos));
 
+    //RESET SCROLLBAR POSITIONS
     headerscroll->setValue(lastHscrollposition);
     cppscroll->setValue(lastSscrollposition);
+    //RESET SCROLLBAR POSITIONS
+
+    className = arg1;
 }
 
 void Daomanager::on_addFieldButton_clicked()
 {
-    ui->fieldlineEdit->text();
-    ui->comboBox->itemText(ui->comboBox->currentIndex());
+    //GET CURRENT SCROLLBAR POSITIONS
+    QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
+    int lastSscrollposition = cppscroll->value();
+    //GET CURRENT SCROLLBAR POSITIONS
 
-    qDebug()<<
+    QString text = std::move(ui->fieldlineEdit->text());
+    QString typetext = std::move(
+                ui->comboBox->itemText(ui->comboBox->currentIndex()));
+
+
+    nombres.push_back(text);
+    tipos.push_back(typetext);
+
+    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className));
+    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
+
+    //RESET SCROLLBAR POSITIONS
+    cppscroll->setValue(lastSscrollposition);
+    //RESET SCROLLBAR POSITIONS
 }

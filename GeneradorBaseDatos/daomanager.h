@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::Daomanager *ui;
     Generarclassdao classdaomanager;
+    QString className;
     std::deque<QString> nombres;
     std::deque<QString> tipos;
 };
