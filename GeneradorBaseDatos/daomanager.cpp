@@ -72,9 +72,9 @@ void Daomanager::on_addFieldButton_clicked()
     QString typetext = std::move(
                 ui->comboBox->itemText(ui->comboBox->currentIndex()));
 
-
     nombres.push_back(text);
     tipos.push_back(typetext);
+
 
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
@@ -82,4 +82,6 @@ void Daomanager::on_addFieldButton_clicked()
     //RESET SCROLLBAR POSITIONS
     cppscroll->setValue(lastSscrollposition);
     //RESET SCROLLBAR POSITIONS
+
+    ui->currentfieldTB->setText(text + " " + typetext);
 }
