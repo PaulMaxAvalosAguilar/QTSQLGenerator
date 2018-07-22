@@ -14,6 +14,7 @@ public:
                             std::deque<QString> &tipos);
     QString generadorTablas(std::deque<QString> &nombres, std::deque<QString> &tipos);
     QString generadorInsert(std::deque<QString> &nombres);
+    QString generadorUpdate(std::deque<QString> &nombres);
 
 private:
     QString firstLettertoUpperCase(QString &string);

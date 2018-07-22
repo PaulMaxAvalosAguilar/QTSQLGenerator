@@ -87,9 +87,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "void %1Dao::updateRecord(%1& record) const\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
-                "\tquery.prepare(\"UPDATE %1 SET name = (:name) WHERE id = (:id)\");\n"
-                "\tquery.bindValue(\":name"", album.getname());\n"
-                "\tquery.bindValue(\":id\", album.getid());\n"
+                "\tquery.prepare(\"UPDATE %1 %5"
+                "\tquery.bindValue(\":id\", album.getId());\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
             "}\n\n"
@@ -110,11 +109,11 @@ QString Generarclassdao::generarTextoSrc(QString className,
 
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
             "{\n"
-                "\tQSqlQuery query(\"SELECT * FROM albums\", mDatabase);\n"
+                "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
                 "\tquery.exec();\n"
-                "\tunique_ptr<vector<unique_ptr<Album>>> list(new vector<unique_ptr<Album>>());\n"
+                "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
                 "\twhile(query.next()) {\n"
-                    "\t\tunique_ptr<Album> album(new Album());\n"
+                    "\t\tunique_ptr<Album> album(new %1());\n"
                     "\t\talbum->setId(query.value(\"id\").toInt());\n"
                     "\t\talbum->setName(query.value(\"name\").toString());\n"
                     "\t\tlist->push_back(move(album));\n"
@@ -123,7 +122,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "}\n"
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
-                .arg(generadorInsert(nombres));
+                .arg(generadorInsert(nombres))
+                .arg(generadorUpdate(nombres));
         return text;
 }
 
@@ -170,6 +170,46 @@ QString Generarclassdao::generadorInsert(std::deque<QString> &nombres)
 
     texto.append(");\n");
 
+
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append("\tquery.bindValue(\":");
+        texto.append(nombres.at(i));
+        texto.append("\"");
+        texto.append(",");
+        texto.append(" ");
+        texto.append("record");
+        texto.append(".get");
+        texto.append(firstLettertoUpperCase(nombres.at(i)));
+        texto.append("());\n");
+    }
+
+    return texto;
+}
+
+QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
+{
+
+    QString texto;
+
+    texto.append("(");
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append(nombres.at(i));
+        if(i != (nombres.size())-1){
+            texto.append(",");
+        }
+    }
+
+    texto.append(") = (");
+
+    for(uint i = 0; i< nombres.size(); i++){
+        texto.append(":");
+        texto.append(nombres.at(i));
+        if(i != (nombres.size())-1){
+            texto.append(",");
+        }
+    }
+
+    texto.append(") WHERE  id = (:id);\n");
 
     for(uint i = 0; i< nombres.size(); i++){
         texto.append("\tquery.bindValue(\":");
