@@ -19,8 +19,7 @@ public:
 
 private:
     void editCurFieldTBrowser(double i);
-    void updateLCDandTBrowser(int positionText,
-                              int numberToDisplayLCD);
+    void updateLCDandTBrowser();
     void cleanLCDandTBrowser();
     void updateSizeLCD();
 
@@ -44,6 +43,7 @@ private:
     std::deque<QString> nombres;
     std::deque<QString> tipos;
     int position;
+    int lcdNumber;
 };
 
 #endif // DAOMANAGER_H

@@ -9,7 +9,8 @@ Daomanager::Daomanager(QWidget *parent) :
     ui(new Ui::Daomanager),
     classdaomanager(),
     className(),
-    position(0)
+    position(0),
+    lcdNumber(0)
 {
     ui->setupUi(this);
 
@@ -36,40 +37,42 @@ void Daomanager::editCurFieldTBrowser(double i)
 
     if(i == 1){
         position = lastElementposition;//Go to last element
+        lcdNumber = position + 1;
 
-        updateLCDandTBrowser(position, position+1);
+        updateLCDandTBrowser();
 
     }else if(i == 1.5){
         //stay in the same place
-        updateLCDandTBrowser(position, position +1);
+        updateLCDandTBrowser();
 
     }else if(i == 2){
-
         if(position >0){
             position = position -1; //Go upwards
+            lcdNumber = position +1;
 
-            updateLCDandTBrowser(position, position+1);
+            updateLCDandTBrowser();
         }
 
     }else if(i == 3){
 
         if(position <lastElementposition){
             position = position + 1; //Go downwards
+            lcdNumber = position +1;
 
-            updateLCDandTBrowser(position, position +1 );
+            updateLCDandTBrowser();
         }
     }
 
     updateSizeLCD();
 }
 
-void Daomanager::updateLCDandTBrowser(int positionText, int numberToDisplayLCD)
+void Daomanager::updateLCDandTBrowser()
 {
 
-        ui->currentfieldTB->setText(nombres.at(positionText)
+        ui->currentfieldTB->setText(nombres.at(position)
                                     + " " +
-                                    tipos.at(positionText));
-        ui->lcdNumber->display(numberToDisplayLCD);
+                                    tipos.at(position));
+        ui->lcdNumber->display(lcdNumber);
 }
 
 void Daomanager::cleanLCDandTBrowser()
@@ -202,7 +205,9 @@ void Daomanager::on_removeButton_clicked()
                 position = 0;
             }
 
-            updateLCDandTBrowser(position, position + 1);
+            lcdNumber = position +1;
+
+            updateLCDandTBrowser();
 
         }else if( nombres.size() == 0){
 
@@ -215,5 +220,11 @@ void Daomanager::on_removeButton_clicked()
 
 void Daomanager::on_removeAllButton_clicked()
 {
+    nombres.clear();
+    tipos.clear();
 
+    position = 0;
+
+    cleanLCDandTBrowser();
+    updateSizeLCD();
 }
