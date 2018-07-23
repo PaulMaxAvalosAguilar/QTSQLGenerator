@@ -19,6 +19,9 @@ public:
 
 private:
     void editCurFieldTBrowser(int i);
+    void updateLCDandTBrowser(int positionText,
+                              int numberToDisplayLCD);
+    void cleanLCDandTBrowser();
     void updateSizeLCD();
 
 private slots:

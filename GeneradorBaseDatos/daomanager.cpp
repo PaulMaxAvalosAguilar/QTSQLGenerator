@@ -31,40 +31,47 @@ Daomanager::~Daomanager()
 
 void Daomanager::editCurFieldTBrowser(int i)
 {
-    int vectorsSize = nombres.size();
+
     int lastElementposition = nombres.size()-1;
 
     if(i == 1){
-        position = lastElementposition;
+        position = lastElementposition;//Go to last element
 
-        ui->currentfieldTB->setText(nombres.at(position)
-                                    + " " +
-                                    tipos.at(position));
-        ui->lcdNumber->display(position+1);
+        updateLCDandTBrowser(position, position+1);
 
     }else if(i == 2){
 
-        if(position >0 && position < vectorsSize){
-            position = position -1;
+        if(position >0){
+            position = position -1; //Go upwards
 
-            ui->currentfieldTB->setText(nombres.at(position)
-                                        + " " +
-                                        tipos.at(position));
-            ui->lcdNumber->display(position+1);
+            updateLCDandTBrowser(position, position+1);
         }
 
     }else if(i == 3){
 
-        if(position >=0 && position <lastElementposition){
-            position = position + 1;
-            ui->currentfieldTB->setText(nombres.at(position)
-                                        + " " +
-                                        tipos.at(position));
-            ui->lcdNumber->display(position+1);
-        }
+        if(position <lastElementposition){
+            position = position + 1; //Go downwards
 
+            updateLCDandTBrowser(position, position +1 );
+        }
     }
+
     updateSizeLCD();
+}
+
+void Daomanager::updateLCDandTBrowser(int positionText, int numberToDisplayLCD)
+{
+
+        ui->currentfieldTB->setText(nombres.at(positionText)
+                                    + " " +
+                                    tipos.at(positionText));
+        ui->lcdNumber->display(numberToDisplayLCD);
+}
+
+void Daomanager::cleanLCDandTBrowser()
+{
+    ui->currentfieldTB->setText("");
+    ui->lcdNumber->display(0);
 }
 
 void Daomanager::updateSizeLCD()
@@ -150,7 +157,6 @@ void Daomanager::on_removeButton_clicked()
         tipos.erase(posicionDeseadaB);
 
         //RECALCULATE TEXT
-
         //GET CURRENT SCROLLBAR POSITIONS
         QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
         int lastSscrollposition = cppscroll->value();
@@ -169,12 +175,13 @@ void Daomanager::on_removeButton_clicked()
             if(position  <0){
                 position = 0;
             }
-            ui->currentfieldTB->setText(nombres.at(position)
-                                        + " " +
-                                        tipos.at(position));
-            ui->lcdNumber->display(position+1);
+
+            updateLCDandTBrowser(position, position + 1);
+
         }else if( nombres.size() == 0){
-            ui->lcdNumber->display(position);
+
+            cleanLCDandTBrowser();
+
         }
         updateSizeLCD();
     }
