@@ -8,6 +8,9 @@ DbManager::DbManager(QWidget *parent) :
     dbtextManager()
 {
     ui->setupUi(this);
+
+
+
     ui->headerBrowser->setText(dbtextManager.generarTextoHeader(""));
     ui->cppBrowser->setText(dbtextManager.generarTextoSrc());
 }
@@ -15,6 +18,14 @@ DbManager::DbManager(QWidget *parent) :
 DbManager::~DbManager()
 {
     delete ui;
+}
+
+void DbManager::setWidgetColour()
+{
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, qRgb(210,216,38));
+    setAutoFillBackground(true);
+    setPalette(pal);
 }
 
 void DbManager::on_dbnamelineEdit_textEdited(const QString &arg1)

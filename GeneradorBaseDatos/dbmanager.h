@@ -16,6 +16,9 @@ public:
     explicit DbManager(QWidget *parent = 0);
     ~DbManager();
 
+private:
+    void setWidgetColour();
+
 private slots:
     void on_dbnamelineEdit_textEdited(const QString &arg1);
 

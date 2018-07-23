@@ -22,6 +22,7 @@ private:
     void updateLCDandTBrowser();
     void cleanLCDandTBrowser();
     void updateSizeLCD();
+    void setWidgetColour();
 
 
 private slots:

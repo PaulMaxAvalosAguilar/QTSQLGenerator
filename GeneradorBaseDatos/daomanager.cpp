@@ -14,6 +14,8 @@ Daomanager::Daomanager(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWidgetColour();
+
     ui->comboBox->addItem("TEXT");
     ui->comboBox->addItem("NUMERIC");
     ui->comboBox->addItem("INTEGER");
@@ -86,6 +88,15 @@ void Daomanager::updateSizeLCD()
     int i = nombres.size();
 
     ui->elementslcd->display(i);
+}
+
+void Daomanager::setWidgetColour()
+{
+
+    QPalette pal = palette();
+    pal.setColor(QPalette::Background, qRgb(210,216,38));
+    setAutoFillBackground(true);
+    setPalette(pal);
 }
 
 
