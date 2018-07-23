@@ -2,24 +2,16 @@
 #include "ui_daomanager.h"
 #include <QDebug>
 #include <QScrollBar>
+#include <deque>
 
 Daomanager::Daomanager(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Daomanager),
     classdaomanager(),
-    className()
+    className(),
+    position()
 {
     ui->setupUi(this);
-
-
-/*
-    nombres.push_back("nombre");
-    tipos.push_back("text");
-    nombres.push_back("edad");
-    tipos.push_back("integer");
-    nombres.push_back("experiencia");
-    tipos.push_back("integer");
-*/
 
     ui->comboBox->addItem("TEXT");
     ui->comboBox->addItem("NUMERIC");
@@ -42,15 +34,13 @@ void Daomanager::editCurFieldTBrowser(int i)
     int vectorsSize = nombres.size();
     int lastElementposition = nombres.size()-1;
 
-    static int position;
-
     if(i == 1){
         position = lastElementposition;
 
         ui->currentfieldTB->setText(nombres.at(position)
                                     + " " +
                                     tipos.at(position));
-
+        ui->lcdNumber->display(position+1);
 
     }else if(i == 2){
 
@@ -60,6 +50,7 @@ void Daomanager::editCurFieldTBrowser(int i)
             ui->currentfieldTB->setText(nombres.at(position)
                                         + " " +
                                         tipos.at(position));
+            ui->lcdNumber->display(position+1);
         }
 
     }else if(i == 3){
@@ -69,12 +60,10 @@ void Daomanager::editCurFieldTBrowser(int i)
             ui->currentfieldTB->setText(nombres.at(position)
                                         + " " +
                                         tipos.at(position));
+            ui->lcdNumber->display(position+1);
         }
 
     }
-
-    ui->lcdNumber->display(position+1);
-
 }
 
 
@@ -137,4 +126,31 @@ void Daomanager::on_upButton_clicked()
 void Daomanager::on_downButton_clicked()
 {
     editCurFieldTBrowser(3);
+}
+
+void Daomanager::on_removeButton_clicked()
+{
+    if(nombres.size() != 0){
+
+        std::deque<QString>::iterator a = nombres.begin();
+        auto posicionDeseadaA = a + position;
+
+        std::deque<QString>::iterator b = tipos.begin();
+        auto posicionDeseadaB = b + position;
+
+        nombres.erase(posicionDeseadaA);
+        tipos.erase(posicionDeseadaB);
+
+    }
+
+    //GET CURRENT SCROLLBAR POSITIONS
+    QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
+    int lastSscrollposition = cppscroll->value();
+    //GET CURRENT SCROLLBAR POSITIONS
+
+    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
+
+    //RESET SCROLLBAR POSITIONS
+    cppscroll->setValue(lastSscrollposition);
+    //RESET SCROLLBAR POSITIONS
 }
