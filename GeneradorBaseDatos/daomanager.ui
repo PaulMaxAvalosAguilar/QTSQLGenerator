@@ -104,6 +104,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QLCDNumber" name="lcdNumber">
+       <property name="maximumSize">
+        <size>
+         <width>40</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QTextBrowser" name="currentfieldTB">
        <property name="maximumSize">
         <size>

@@ -39,28 +39,42 @@ Daomanager::~Daomanager()
 
 void Daomanager::editCurFieldTBrowser(int i)
 {
-    int lastposition = nombres.size()-1;
-    static int vecesOprimidasbA;
-    int position;
+    int vectorsSize = nombres.size();
+    int lastElementposition = nombres.size()-1;
+
+    static int position;
 
     if(i == 1){
-        position = lastposition;
+        position = lastElementposition;
+
         ui->currentfieldTB->setText(nombres.at(position)
                                     + " " +
                                     tipos.at(position));
-        vecesOprimidasbA = 1;
+
+
     }else if(i == 2){
 
-        position = lastposition -vecesOprimidasbA;
-        if(position >=0){
+        if(position >0 && position < vectorsSize){
+            position = position -1;
+
             ui->currentfieldTB->setText(nombres.at(position)
                                         + " " +
                                         tipos.at(position));
-            vecesOprimidasbA++;
         }
+
     }else if(i == 3){
 
+        if(position >=0 && position <lastElementposition){
+            position = position + 1;
+            ui->currentfieldTB->setText(nombres.at(position)
+                                        + " " +
+                                        tipos.at(position));
+        }
+
     }
+
+    ui->lcdNumber->display(position+1);
+
 }
 
 
@@ -122,5 +136,5 @@ void Daomanager::on_upButton_clicked()
 
 void Daomanager::on_downButton_clicked()
 {
-
+    editCurFieldTBrowser(3);
 }
