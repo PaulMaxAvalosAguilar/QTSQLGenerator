@@ -40,7 +40,7 @@ void Daomanager::editCurFieldTBrowser(double i)
         updateLCDandTBrowser(position, position+1);
 
     }else if(i == 1.5){
-
+        //stay in the same place
         updateLCDandTBrowser(position, position +1);
 
     }else if(i == 2){
@@ -98,6 +98,8 @@ void Daomanager::on_classnameline_textEdited(const QString &arg1)
     int lastSscrollposition = cppscroll->value();
     //GET CURRENT SCROLLBAR POSITIONS
 
+
+    //CALCULATE TEXT
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(arg1));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(arg1,nombres,tipos));
 
@@ -111,15 +113,17 @@ void Daomanager::on_classnameline_textEdited(const QString &arg1)
 
 void Daomanager::on_addFieldButton_clicked()
 {
+    //Read text and combo box
+    QString text = std::move(ui->fieldlineEdit->text());
+    QString typetext = std::move(
+                ui->comboBox->itemText(ui->comboBox->currentIndex()));
+
     //GET CURRENT SCROLLBAR POSITIONS
     QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
     int lastSscrollposition = cppscroll->value();
     //GET CURRENT SCROLLBAR POSITIONS
 
-    QString text = std::move(ui->fieldlineEdit->text());
-    QString typetext = std::move(
-                ui->comboBox->itemText(ui->comboBox->currentIndex()));
-
+    //Insertion logic
     if(nombres.size() == 0 || position == static_cast<int>(nombres.size()-1)){
         nombres.push_back(text);
         tipos.push_back(typetext);
@@ -138,6 +142,8 @@ void Daomanager::on_addFieldButton_clicked()
 
     }
 
+
+    //CACLULATE TEXT
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
 
@@ -169,15 +175,19 @@ void Daomanager::on_removeButton_clicked()
         std::deque<QString>::iterator b = tipos.begin();
         auto posicionDeseadaB = b + position;
 
-        nombres.erase(posicionDeseadaA);
-        tipos.erase(posicionDeseadaB);
-
-        //RECALCULATE TEXT
         //GET CURRENT SCROLLBAR POSITIONS
         QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
         int lastSscrollposition = cppscroll->value();
         //GET CURRENT SCROLLBAR POSITIONS
 
+
+        //Removal logic
+        nombres.erase(posicionDeseadaA);
+        tipos.erase(posicionDeseadaB);
+
+
+
+        //CALCULATE TEXT
         ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
 
         //RESET SCROLLBAR POSITIONS
@@ -185,7 +195,7 @@ void Daomanager::on_removeButton_clicked()
         //RESET SCROLLBAR POSITIONS
 
 
-        //UPDATE LCD SCREEN
+        //UPDATE LCD SCREENS
         if(nombres.size() != 0){
             position = position-1;//move upwards
             if(position  <0){
