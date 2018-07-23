@@ -212,3 +212,8 @@ void Daomanager::on_removeButton_clicked()
         updateSizeLCD();
     }
 }
+
+void Daomanager::on_removeAllButton_clicked()
+{
+
+}

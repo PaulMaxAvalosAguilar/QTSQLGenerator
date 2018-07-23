@@ -35,6 +35,8 @@ private slots:
     void on_removeButton_clicked();
 
 
+    void on_removeAllButton_clicked();
+
 private:
     Ui::Daomanager *ui;
     Generarclassdao classdaomanager;
