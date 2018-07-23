@@ -18,11 +18,12 @@ public:
     ~Daomanager();
 
 private:
-    void editCurFieldTBrowser(int i);
+    void editCurFieldTBrowser(double i);
     void updateLCDandTBrowser(int positionText,
                               int numberToDisplayLCD);
     void cleanLCDandTBrowser();
     void updateSizeLCD();
+
 
 private slots:
     void on_classnameline_textEdited(const QString &arg1);

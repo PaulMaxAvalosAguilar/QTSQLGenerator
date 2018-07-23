@@ -9,7 +9,7 @@ Daomanager::Daomanager(QWidget *parent) :
     ui(new Ui::Daomanager),
     classdaomanager(),
     className(),
-    position()
+    position(0)
 {
     ui->setupUi(this);
 
@@ -29,7 +29,7 @@ Daomanager::~Daomanager()
     delete ui;
 }
 
-void Daomanager::editCurFieldTBrowser(int i)
+void Daomanager::editCurFieldTBrowser(double i)
 {
 
     int lastElementposition = nombres.size()-1;
@@ -38,6 +38,10 @@ void Daomanager::editCurFieldTBrowser(int i)
         position = lastElementposition;//Go to last element
 
         updateLCDandTBrowser(position, position+1);
+
+    }else if(i == 1.5){
+
+        updateLCDandTBrowser(position, position +1);
 
     }else if(i == 2){
 
@@ -116,9 +120,23 @@ void Daomanager::on_addFieldButton_clicked()
     QString typetext = std::move(
                 ui->comboBox->itemText(ui->comboBox->currentIndex()));
 
-    nombres.push_back(text);
-    tipos.push_back(typetext);
+    if(nombres.size() == 0 || position == static_cast<int>(nombres.size()-1)){
+        nombres.push_back(text);
+        tipos.push_back(typetext);
+        editCurFieldTBrowser(1);
+    }else{
+        std::deque<QString>::iterator iteradorA = nombres.begin();
+        auto iteradorEnposicionA = iteradorA +position;
 
+        std::deque<QString>::iterator iteradorB = tipos.begin();
+        auto iteradorEnposicionB = iteradorB +position;
+
+        nombres.insert(iteradorEnposicionA, text);
+        tipos.insert(iteradorEnposicionB, typetext);
+
+        editCurFieldTBrowser(1.5);
+
+    }
 
     ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
@@ -127,10 +145,8 @@ void Daomanager::on_addFieldButton_clicked()
     cppscroll->setValue(lastSscrollposition);
     //RESET SCROLLBAR POSITIONS
 
-
-    editCurFieldTBrowser(1);
-
 }
+
 
 
 void Daomanager::on_upButton_clicked()
