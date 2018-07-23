@@ -64,6 +64,14 @@ void Daomanager::editCurFieldTBrowser(int i)
         }
 
     }
+    updateSizeLCD();
+}
+
+void Daomanager::updateSizeLCD()
+{
+    int i = nombres.size();
+
+    ui->elementslcd->display(i);
 }
 
 
@@ -168,5 +176,6 @@ void Daomanager::on_removeButton_clicked()
         }else if( nombres.size() == 0){
             ui->lcdNumber->display(position);
         }
+        updateSizeLCD();
     }
 }

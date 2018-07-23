@@ -17,7 +17,9 @@ public:
     explicit Daomanager(QWidget *parent = 0);
     ~Daomanager();
 
+private:
     void editCurFieldTBrowser(int i);
+    void updateSizeLCD();
 
 private slots:
     void on_classnameline_textEdited(const QString &arg1);
