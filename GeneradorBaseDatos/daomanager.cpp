@@ -141,16 +141,32 @@ void Daomanager::on_removeButton_clicked()
         nombres.erase(posicionDeseadaA);
         tipos.erase(posicionDeseadaB);
 
+        //RECALCULATE TEXT
+
+        //GET CURRENT SCROLLBAR POSITIONS
+        QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
+        int lastSscrollposition = cppscroll->value();
+        //GET CURRENT SCROLLBAR POSITIONS
+
+        ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
+
+        //RESET SCROLLBAR POSITIONS
+        cppscroll->setValue(lastSscrollposition);
+        //RESET SCROLLBAR POSITIONS
+
+
+        //UPDATE LCD SCREEN
+        if(nombres.size() != 0){
+            position = position-1;//move upwards
+            if(position  <0){
+                position = 0;
+            }
+            ui->currentfieldTB->setText(nombres.at(position)
+                                        + " " +
+                                        tipos.at(position));
+            ui->lcdNumber->display(position+1);
+        }else if( nombres.size() == 0){
+            ui->lcdNumber->display(position);
+        }
     }
-
-    //GET CURRENT SCROLLBAR POSITIONS
-    QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
-    int lastSscrollposition = cppscroll->value();
-    //GET CURRENT SCROLLBAR POSITIONS
-
-    ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
-
-    //RESET SCROLLBAR POSITIONS
-    cppscroll->setValue(lastSscrollposition);
-    //RESET SCROLLBAR POSITIONS
 }
