@@ -69,7 +69,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "{\n"
                 "\tif (!mDatabase.tables().contains(\"%1\")) {\n"
                     "\t\tQSqlQuery query(mDatabase);\n"
-                    "\t\tquery.exec(\"CREATE TABLE %1 (id INTEGER PRIMARY KEY AUTOINCREMENT, %3\");\n"
+                    "\t\tquery.exec(\"CREATE TABLE %1 (id INTEGER PRIMARY KEY AUTOINCREMENT, %3)\");\n"
                     "\t\tDatabaseManager::debugQuery(query);\n"
                 "\t}\n"
             "}\n\n"
