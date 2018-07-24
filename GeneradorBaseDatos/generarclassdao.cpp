@@ -87,7 +87,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
                 "\tquery.prepare(\"UPDATE %1 %5"
-                "\tquery.bindValue(\":id\", album.getId());\n"
+                "\tquery.bindValue(\":id\", record.getId());\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
             "}\n\n"
@@ -185,7 +185,7 @@ QString Generarclassdao::generadorInsert(std::deque<QString> &nombres)
         }
     }
 
-    texto.append("\"));\n");
+    texto.append(")\");\n");
 
 
     for(uint i = 0; i< nombres.size(); i++){
@@ -274,7 +274,7 @@ QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
             texto.append(".toByteArray()");
         }
 
-        texto.append(";\n");
+        texto.append(");\n");
     }
 
     return texto;
