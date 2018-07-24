@@ -118,6 +118,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "{\n"
                 "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
                 "\tquery.exec();\n"
+                "\tDatabaseManager::debugQuery(query);\n"
                 "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
                 "\twhile(query.next()) {\n"
                     "\t\tunique_ptr<%1> %2(new %1());\n"
