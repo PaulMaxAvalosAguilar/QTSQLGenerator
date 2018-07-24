@@ -30,9 +30,9 @@ QString Generarclassdao::generarTextoHeader(QString className)
                 "\texplicit %1Dao(QSqlDatabase& database);\n"
                 "\tvoid init() const;\n\n"
 
-                "\tvoid addRecord(%1& record) const;\n"
-                "\tvoid updateRecord(%1& record) const;\n"
-                "\tvoid removeRecord(int recordId) const;\n"
+                "\tvoid addRecord(%1& record);\n"
+                "\tvoid updateRecord(%1& record);\n"
+                "\tvoid removeRecord(int recordId);\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
                 "\tstd::unique_ptr<%1> getRecord(int recordId) const;\n\n\n"
 
@@ -84,7 +84,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\t}\n"
             "}\n\n"
 
-            "void %1Dao::addRecord(%1& record) const\n"
+            "void %1Dao::addRecord(%1& record)\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
                 "\tquery.prepare(\"INSERT INTO %1 %4"
@@ -94,7 +94,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\temit addedRecord();\n"
             "}\n\n"
 
-            "void %1Dao::updateRecord(%1& record) const\n"
+            "void %1Dao::updateRecord(%1& record)\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
                 "\tquery.prepare(\"UPDATE %1 %5"
@@ -104,7 +104,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\temit updatedRecord();\n"
             "}\n\n"
 
-            "void %1Dao::removeRecord(int recordId) const\n"
+            "void %1Dao::removeRecord(int recordId)\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
                 "\tquery.prepare(\"DELETE FROM %1 WHERE id = (:id)\");\n"
