@@ -15,13 +15,17 @@ QString Generarclassdao::generarTextoHeader(QString className)
             "#define %2DAO_H\n"
 
             "#include <memory>\n"
-            "#include <vector>\n\n"
+            "#include <vector>\n"
+            "#include <QObject>\n\n"
 
             "class QSqlDatabase;\n"
             "class %1;\n\n"
 
-            "class %1Dao\n"
-            "{\n"
+            "class %1Dao : public QObject\n"
+            "{\n\n"
+
+            "Q_OBJECT\n\n"
+
             "public:\n"
                 "\texplicit %1Dao(QSqlDatabase& database);\n"
                 "\tvoid init() const;\n\n"
@@ -30,7 +34,12 @@ QString Generarclassdao::generarTextoHeader(QString className)
                 "\tvoid updateRecord(%1& record) const;\n"
                 "\tvoid removeRecord(int recordId) const;\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
-                "\tstd::unique_ptr<%1> getRecord(int recordId) const;\n"
+                "\tstd::unique_ptr<%1> getRecord(int recordId) const;\n\n\n"
+
+            "signals:\n"
+                "\tvoid addedRecord();\n"
+                "\tvoid updatedRecord();\n"
+                "\tvoid removedRecord();\n\n"
 
             "private:\n"
                 "\tQSqlDatabase& mDatabase;\n"
@@ -61,7 +70,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "using namespace std;\n\n"
 
             "%1Dao::%1Dao(QSqlDatabase& database) :\n"
-                "mDatabase(database)\n"
+                "\tQObject(),\n"
+                "\tmDatabase(database)\n"
             "{\n"
             "}\n\n"
 
@@ -81,6 +91,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.exec();\n"
                 "\trecord.setId(query.lastInsertId().toInt());\n"
                 "\tDatabaseManager::debugQuery(query);\n"
+                "\temit addedRecord();\n"
             "}\n\n"
 
             "void %1Dao::updateRecord(%1& record) const\n"
@@ -90,6 +101,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.bindValue(\":id\", record.getId());\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
+                "\temit updatedRecord();\n"
             "}\n\n"
 
             "void %1Dao::removeRecord(int recordId) const\n"
@@ -99,6 +111,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\tquery.bindValue(\":id\", recordId);\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
+                "\temit removedRecord();\n"
             "}\n\n"
 
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
