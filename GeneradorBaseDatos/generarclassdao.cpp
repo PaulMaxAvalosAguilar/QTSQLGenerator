@@ -116,8 +116,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
 
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
             "{\n"
-                "\tQSqlQuery query(mDatabase);\n"
-                "\tquery(\"SELECT * FROM %1\");\n"
+                "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
                 "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
