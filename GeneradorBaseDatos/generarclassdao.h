@@ -27,7 +27,7 @@ public:
     QString generadorUpdate(std::deque<QString> &nombres);
     QString generadorAsignacion(std::deque<QString> &nombres,
                                 std::deque<QString> &tipos,
-                             QString className, int numeroTabs);
+                             QString className);
 
 
 private:

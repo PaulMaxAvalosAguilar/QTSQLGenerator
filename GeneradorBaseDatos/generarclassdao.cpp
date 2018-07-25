@@ -34,7 +34,7 @@ QString Generarclassdao::generarTextoHeader(QString className)
                 "\tvoid updateRecord(%1& record);\n"
                 "\tvoid removeRecord(int recordId);\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
-                "\tstd::unique_ptr<%1> getRecord(int recordId) const;\n\n\n"
+                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n\n"
 
             "signals:\n"
                 "\tvoid addedRecord();\n"
@@ -116,7 +116,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
 
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
             "{\n"
-                "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
+                "\tQSqlQuery query(mDatabase);\n"
+                "\tquery(\"SELECT * FROM %1\");\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
                 "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
@@ -129,17 +130,21 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\treturn list;\n"
             "}\n\n"
             ""
-            "std::unique_ptr<%1> %1Dao::getRecord(int recordId) const\n"
+            "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getRecord(int recordId) const\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
                 "\tquery.prepare(\"SELECT * FROM %1 WHERE id = (:id)\");\n"
                 "\tquery.bindValue(\":id\", recordId);\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
-                "\tstd::unique_ptr<%1> %2(new %1());\n"
-                "\t%2->setId(query.value(\"id\").toInt());\n"
-                "%7"
-                "\treturn %2;\n"
+                "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
+                "\twhile(query.next()) {\n"
+                    "\t\tstd::unique_ptr<%1> %2(new %1());\n"
+                    "\t\t%2->setId(query.value(\"id\").toInt());\n"
+                    "%6"
+                    "\t\tlist->push_back(move(%2));\n"
+                "\t}\n"
+                "\treturn list;\n"
             "}\n"
 
             ).arg(className).arg(className.toLower())
@@ -148,13 +153,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 .arg(generadorUpdate(nombres))
                 .arg(generadorAsignacion(nombres,
                                          tipos,
-                                         className,
-                                         2))
-                .arg(generadorAsignacion(nombres,
-                                         tipos,
-                                         className,
-                                         1))
-                ;
+                                         className));
         return text;
 }
 
@@ -259,15 +258,14 @@ QString Generarclassdao::generadorUpdate(std::deque<QString> &nombres)
 
 QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
                                           std::deque<QString> &tipos,
-                                          QString className,
-                                             int numeroTabs)
+                                          QString className)
 {
     QString texto;
 
     for(uint i = 0; i< nombres.size(); i++){
-        for(int i = 1; i <= numeroTabs; i++){
-        texto.append("\t");
-        }
+
+        texto.append("\t\t");
+
         texto.append(className.toLower());
         texto.append("->");
         texto.append("set");
