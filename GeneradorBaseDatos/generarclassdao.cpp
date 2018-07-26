@@ -97,7 +97,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "void %1Dao::updateRecord(%1& record)\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
-                "\tquery.prepare(\"UPDATE %1 %5"
+                "\tquery.prepare(\"UPDATE %1 SET %5"
                 "\tquery.bindValue(\":id\", record.getId());\n"
                 "\tquery.exec();\n"
                 "\tDatabaseManager::debugQuery(query);\n"
