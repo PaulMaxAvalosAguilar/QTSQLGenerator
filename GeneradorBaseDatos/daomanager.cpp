@@ -132,7 +132,11 @@ void Daomanager::on_addFieldButton_clicked()
     QString typetext = std::move(
                 ui->comboBox->itemText(ui->comboBox->currentIndex()));
 
+
     //GET CURRENT SCROLLBAR POSITIONS
+    QScrollBar *headerscroll = ui->headerBrowser->verticalScrollBar();
+    int lastHscrollposition = headerscroll->value();
+
     QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
     int lastSscrollposition = cppscroll->value();
     //GET CURRENT SCROLLBAR POSITIONS
@@ -163,6 +167,7 @@ void Daomanager::on_addFieldButton_clicked()
 
     //RESET SCROLLBAR POSITIONS
     cppscroll->setValue(lastSscrollposition);
+    headerscroll->setValue(lastHscrollposition);
     //RESET SCROLLBAR POSITIONS
 
 }
@@ -190,6 +195,9 @@ void Daomanager::on_removeButton_clicked()
         auto posicionDeseadaB = b + position;
 
         //GET CURRENT SCROLLBAR POSITIONS
+        QScrollBar *headerscroll = ui->headerBrowser->verticalScrollBar();
+        int lastHscrollposition = headerscroll->value();
+
         QScrollBar *cppscroll = ui->cppBrowser->verticalScrollBar();
         int lastSscrollposition = cppscroll->value();
         //GET CURRENT SCROLLBAR POSITIONS
@@ -202,9 +210,11 @@ void Daomanager::on_removeButton_clicked()
 
 
         //CALCULATE TEXT
+        ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className,nombres));
         ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
 
         //RESET SCROLLBAR POSITIONS
+        headerscroll->setValue(lastHscrollposition);
         cppscroll->setValue(lastSscrollposition);
         //RESET SCROLLBAR POSITIONS
 
