@@ -22,7 +22,7 @@ Daomanager::Daomanager(QWidget *parent) :
     ui->comboBox->addItem("REAL");
     ui->comboBox->addItem("BLOB");
 
-    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(""));
+    ui->headerBrowser->setText(classdaomanager.generarTextoHeader("",nombres));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc("",nombres,tipos));
 
 }
@@ -114,7 +114,7 @@ void Daomanager::on_classnameline_textEdited(const QString &arg1)
 
 
     //CALCULATE TEXT
-    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(arg1));
+    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(arg1, nombres));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(arg1,nombres,tipos));
 
     //RESET SCROLLBAR POSITIONS
@@ -158,7 +158,7 @@ void Daomanager::on_addFieldButton_clicked()
 
 
     //CACLULATE TEXT
-    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className));
+    ui->headerBrowser->setText(classdaomanager.generarTextoHeader(className, nombres));
     ui->cppBrowser->setText(classdaomanager.generarTextoSrc(className,nombres,tipos));
 
     //RESET SCROLLBAR POSITIONS

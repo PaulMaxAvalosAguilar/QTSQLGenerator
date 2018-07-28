@@ -17,7 +17,7 @@ public:
     };
 
     Generarclassdao();
-    QString generarTextoHeader(QString className);
+    QString generarTextoHeader(QString className, std::deque<QString> nombres);
     QString generarTextoSrc(QString className,
                             std::deque<QString> &nombres,
                             std::deque<QString> &tipos);
@@ -28,6 +28,7 @@ public:
     QString generadorAsignacion(std::deque<QString> &nombres,
                                 std::deque<QString> &tipos,
                              QString className);
+    QString generadorIndexes(std::deque<QString> &nombres);
 
 
 private:

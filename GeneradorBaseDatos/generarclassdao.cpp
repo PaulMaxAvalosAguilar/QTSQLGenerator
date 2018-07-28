@@ -6,7 +6,7 @@ Generarclassdao::Generarclassdao()
 
 }
 
-QString Generarclassdao::generarTextoHeader(QString className)
+QString Generarclassdao::generarTextoHeader(QString className, std::deque<QString> nombres)
 {
     QString text;
     text = QString(
@@ -34,7 +34,8 @@ QString Generarclassdao::generarTextoHeader(QString className)
                 "\tvoid updateRecord(%1& record);\n"
                 "\tvoid removeRecord(int recordId);\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
-                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n\n"
+                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n"
+                "%3"
 
             "signals:\n"
                 "\tvoid addedRecord();\n"
@@ -48,7 +49,9 @@ QString Generarclassdao::generarTextoHeader(QString className)
             "#endif // PICTUREDAO_H\n"
 
 
-                ).arg(className).arg(className.toUpper());            ;
+                ).arg(className)
+            .arg(className.toUpper())
+            .arg(generadorIndexes(nombres));            ;
     return text;
 }
 
@@ -145,6 +148,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\t}\n"
                 "\treturn list;\n"
             "}\n"
+            ""
+
 
             ).arg(className).arg(className.toLower())
                 .arg(generadorTablas(nombres,tipos))
@@ -290,6 +295,22 @@ QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
 
     return texto;
 
+}
+
+QString Generarclassdao::generadorIndexes(std::deque<QString> &nombres)
+{
+
+    QString texto;
+
+
+
+    for(uint i = 0; i < nombres.size(); i++){
+        texto.append("\tvoid createIndexonColumn");
+        texto.append(firstLettertoUpperCase(nombres.at(i)));
+        texto.append("();\n");
+    }
+
+    return texto;
 }
 
 QString Generarclassdao::firstLettertoUpperCase(QString &string)
