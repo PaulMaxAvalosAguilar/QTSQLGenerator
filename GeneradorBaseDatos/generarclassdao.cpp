@@ -141,7 +141,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "}\n\n"
 
 
-            "void removeAllRecords()\n"
+            "void %1Dao::removeAllRecords()\n"
             "{\n"
                 "\tQSqlQuery query(\"DELETE FROM %1\", mDatabase);\n"
                 "\tquery.exec();\n"
