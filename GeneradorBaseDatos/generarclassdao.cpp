@@ -36,7 +36,7 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n"
 
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n"
-                "\tvoid deleteAllRecords();"
+                "\tvoid deleteAllRecords();\n\n"
 
                 "%3\n"
 
@@ -153,6 +153,13 @@ QString Generarclassdao::generarTextoSrc(QString className,
                     "\t\tlist->push_back(move(%2));\n"
                 "\t}\n"
                 "\treturn list;\n"
+            "}\n\n"
+
+            "void deleteAllRecords()\n"
+            "{\n"
+                "\tQSqlQuery query(\"DELETE FROM %1\", mDatabase);\n"
+                "\tquery.exec();\n"
+                "\tDatabaseManager::debugQuery(query);\n"
             "}\n\n"
 
             "%7"
