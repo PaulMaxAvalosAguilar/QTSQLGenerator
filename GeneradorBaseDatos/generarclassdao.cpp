@@ -35,8 +35,8 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
                 "\tvoid removeRecord(int recordId);\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n"
 
-                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n"
-                "\tvoid deleteAllRecords();\n\n"
+                "\tvoid removeAllRecords();\n"
+                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
 
                 "%3\n"
 
@@ -45,7 +45,8 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
                 "\tvoid updatedRecord();\n"
                 "\tvoid removedRecord();\n\n"
 
-                "\tvoid deletedAllRecords();"
+                "\tvoid updatedManyRecords();\n"
+                "\tvoid removedAllRecords();\n\n"
 
             "private:\n"
                 "\tQSqlDatabase& mDatabase;\n"
@@ -140,6 +141,14 @@ QString Generarclassdao::generarTextoSrc(QString className,
             "}\n\n"
 
 
+            "void removeAllRecords()\n"
+            "{\n"
+                "\tQSqlQuery query(\"DELETE FROM %1\", mDatabase);\n"
+                "\tquery.exec();\n"
+                "\tDatabaseManager::debugQuery(query);\n"
+                "\temit removedAllRecords();\n"
+            "}\n\n"
+
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
             "{\n"
                 "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
@@ -155,12 +164,7 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\treturn list;\n"
             "}\n\n"
 
-            "void deleteAllRecords()\n"
-            "{\n"
-                "\tQSqlQuery query(\"DELETE FROM %1\", mDatabase);\n"
-                "\tquery.exec();\n"
-                "\tDatabaseManager::debugQuery(query);\n"
-            "}\n\n"
+
 
             "%7"
 
