@@ -323,8 +323,15 @@ QString Generarclassdao::generadorIndexesSources(QString classname, std::deque<Q
 
     for(uint i = 0; i < nombres.size(); i++){
 
+        if(i != 0){
+            texto.append("\n");
+        }
+
         //Top part
-        texto.append("void createIndexonColumn");
+        texto.append("void ");
+        texto.append(firstLettertoUpperCase(classname));
+        texto.append("Dao::");
+        texto.append("createIndexonColumn");
         texto.append(firstLettertoUpperCase(nombres.at(i)));
         texto.append("(){\n");
         //Top part
@@ -346,7 +353,7 @@ QString Generarclassdao::generadorIndexesSources(QString classname, std::deque<Q
         texto.append("\tquery.exec();\n");
         texto.append("\tDatabaseManager::debugQuery(query);\n");
 
-        texto.append("}");
+        texto.append("}\n");
     }
 
 
