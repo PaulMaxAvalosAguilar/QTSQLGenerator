@@ -28,7 +28,8 @@ public:
     QString generadorAsignacion(std::deque<QString> &nombres,
                                 std::deque<QString> &tipos,
                              QString className);
-    QString generadorIndexes(std::deque<QString> &nombres);
+    QString generadorIndexesHeaders(std::deque<QString> &nombres);
+    QString generadorIndexesSources(QString classname,std::deque<QString> &nombres);
 
 
 private:

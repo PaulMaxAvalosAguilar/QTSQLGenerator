@@ -35,7 +35,7 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
                 "\tvoid removeRecord(int recordId);\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n"
-                "%3"
+                "%3\n"
 
             "signals:\n"
                 "\tvoid addedRecord();\n"
@@ -51,7 +51,7 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
 
                 ).arg(className)
             .arg(className.toUpper())
-            .arg(generadorIndexes(nombres));            ;
+            .arg(generadorIndexesHeaders(nombres));            ;
     return text;
 }
 
@@ -147,8 +147,9 @@ QString Generarclassdao::generarTextoSrc(QString className,
                     "\t\tlist->push_back(move(%2));\n"
                 "\t}\n"
                 "\treturn list;\n"
-            "}\n"
+            "}\n\n"
             ""
+            "%7"
 
 
             ).arg(className).arg(className.toLower())
@@ -157,7 +158,8 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 .arg(generadorUpdate(nombres))
                 .arg(generadorAsignacion(nombres,
                                          tipos,
-                                         className));
+                                         className))
+                .arg(generadorIndexesSources(className,nombres));
         return text;
 }
 
@@ -297,7 +299,7 @@ QString Generarclassdao::generadorAsignacion(std::deque<QString> &nombres,
 
 }
 
-QString Generarclassdao::generadorIndexes(std::deque<QString> &nombres)
+QString Generarclassdao::generadorIndexesHeaders(std::deque<QString> &nombres)
 {
 
     QString texto;
@@ -309,6 +311,44 @@ QString Generarclassdao::generadorIndexes(std::deque<QString> &nombres)
         texto.append(firstLettertoUpperCase(nombres.at(i)));
         texto.append("();\n");
     }
+
+    return texto;
+}
+
+QString Generarclassdao::generadorIndexesSources(QString classname, std::deque<QString> &nombres)
+{
+    QString texto;
+
+
+
+    for(uint i = 0; i < nombres.size(); i++){
+
+        //Top part
+        texto.append("void createIndexonColumn");
+        texto.append(firstLettertoUpperCase(nombres.at(i)));
+        texto.append("(){\n");
+        //Top part
+
+        //Query
+        texto.append("\tQSqlQuery query(");
+        texto.append("\"");
+        texto.append("create index ");
+        texto.append(nombres.at(i));
+        texto.append(" on ");
+        texto.append(firstLettertoUpperCase(classname));
+        texto.append("(");
+        texto.append(nombres.at(i));
+        texto.append(")");
+        texto.append("\"");
+        texto.append(", mDatabase);\n");
+        //Query
+
+        texto.append("\tquery.exec();\n");
+        texto.append("\tDatabaseManager::debugQuery(query);\n");
+
+        texto.append("}");
+    }
+
 
     return texto;
 }
