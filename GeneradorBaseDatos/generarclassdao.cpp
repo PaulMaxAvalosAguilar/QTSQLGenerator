@@ -33,8 +33,10 @@ QString Generarclassdao::generarTextoHeader(QString className, std::deque<QStrin
                 "\tvoid addRecord(%1& record);\n"
                 "\tvoid updateRecord(%1& record);\n"
                 "\tvoid removeRecord(int recordId);\n"
-                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"
                 "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getRecord(int recordId) const;\n\n"
+
+                "\tstd::unique_ptr<std::vector<std::unique_ptr<%1>>> getAllRecords() const;\n\n"                
+
                 "%3\n"
 
             "signals:\n"
@@ -117,21 +119,6 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\temit removedRecord();\n"
             "}\n\n"
 
-            "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
-            "{\n"
-                "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
-                "\tquery.exec();\n"
-                "\tDatabaseManager::debugQuery(query);\n"
-                "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
-                "\twhile(query.next()) {\n"
-                    "\t\tunique_ptr<%1> %2(new %1());\n"
-                    "\t\t%2->setId(query.value(\"id\").toInt());\n"
-                    "%6"
-                    "\t\tlist->push_back(move(%2));\n"
-                "\t}\n"
-                "\treturn list;\n"
-            "}\n\n"
-            ""
             "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getRecord(int recordId) const\n"
             "{\n"
                 "\tQSqlQuery query(mDatabase);\n"
@@ -148,7 +135,23 @@ QString Generarclassdao::generarTextoSrc(QString className,
                 "\t}\n"
                 "\treturn list;\n"
             "}\n\n"
-            ""
+
+
+            "unique_ptr<vector<unique_ptr<%1>>> %1Dao::getAllRecords() const\n"
+            "{\n"
+                "\tQSqlQuery query(\"SELECT * FROM %1\", mDatabase);\n"
+                "\tquery.exec();\n"
+                "\tDatabaseManager::debugQuery(query);\n"
+                "\tunique_ptr<vector<unique_ptr<%1>>> list(new vector<unique_ptr<%1>>());\n"
+                "\twhile(query.next()) {\n"
+                    "\t\tunique_ptr<%1> %2(new %1());\n"
+                    "\t\t%2->setId(query.value(\"id\").toInt());\n"
+                    "%6"
+                    "\t\tlist->push_back(move(%2));\n"
+                "\t}\n"
+                "\treturn list;\n"
+            "}\n\n"
+
             "%7"
 
 
